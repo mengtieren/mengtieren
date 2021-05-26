@@ -1,2 +1,4 @@
 # Aux
-Auxiliary board interface
+Auxiliary board interface, Client generates messages, Server receives messages and engages GPIO.
+
+
