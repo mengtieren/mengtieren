@@ -1,0 +1,31 @@
+# To run interactive, Comment out command and run docker-compose run --rm analytics
+version: '3'
+
+services:
+    auxiliary:
+
+      image: aux:latest
+      
+      command: python3 /src/aux.py
+      #stdin_open: true # docker run -i
+
+      #tty: true        # docker run -t
+
+      devices:
+        - "/dev/ttyUSB0"
+        - "/dev/ttyUSB1"
+        - "/dev/ttyUSB2"
+        - "/dev/ttyUSB3"
+
+      privileged: true
+      
+      volumes:
+        - ./src:/src
+
+      cap_add:
+        - ALL
+    
+      ports:
+        - 5004:5004
+
+

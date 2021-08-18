@@ -5,43 +5,58 @@
 import time
 import zmq
 import json
-import Jetson.GPIO as GPIO
-# Pin Definitions
-output_pin = 18  # BOARD pin 12, BCM pin 18
+from pyftdi.gpio import (GpioAsyncController)
+
+
 def recv_message(_socket):
 
     #  Wait for next request from client
 
     print("Waiting for msg from logic...")
     message = _socket.recv()
+
     print("Recieved msg from logic ...")
     message_json = json.loads(message)
 
+    ok_msg = {
+        "message": "aux_status",
+        "status_code": "ok"
+    }
+
     #  Send reply back to client
-    _socket.send_string("OK") 
+    _socket.send_string(json.dumps(ok_msg)) 
     return message_json
 
 def main():
+    ssr_bank = GpioAsyncController()
+    ssr_bank.configure("ftdi:///2", direction=0xFF, frequency=1e3, initial=0x0)
+    opto_bank = GpioAsyncController()
+    opto_bank.configure("ftdi:///3", direction=0x00, frequency=1e3, initial=0x0)
+    gpio_bank = GpioAsyncController()
+    gpio_bank.configure("ftdi:///4", direction=0x00, frequency=1e3, initial=0x0)
+
     context = zmq.Context()
     socket = context.socket(zmq.REP)
     socket.bind("tcp://*:5004")
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setwarnings(False)
-    GPIO.setup(output_pin, GPIO.OUT, initial=GPIO.HIGH)
+
     while(1):
         message_json = recv_message(socket)
+
         if message_json["alarm"] == "activated":
-            print ("ALARM")
-            GPIO.output(output_pin, GPIO.LOW)
+            print ("ALARM ACTIVATED")
+            ssr_bank.write(0x01) 
         else: 
-            GPIO.output(output_pin, GPIO.HIGH)
+            ssr_bank.write(0x00) 
             print("ALARM DEACTIVATED")
+
+        time.sleep(1)
+
 if __name__ == '__main__':
     try: 
         main()
     except KeyboardInterrupt:
         print ("\nexiting")
-        GPIO.output(output_pin, GPIO.HIGH)
+
 
 ## in a .vscode folder place following: 
 # {
