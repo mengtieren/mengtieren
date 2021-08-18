@@ -1,7 +1,3 @@
-
-# LOGIC = REQ
-# AUX = REP
-
 import time
 import zmq
 import json
@@ -45,11 +41,8 @@ def main():
         if message_json["alarm"] == "activated":
             print ("ALARM ACTIVATED")
             ssr_bank.write(0x01) 
-        else: 
+            time.sleep(2)
             ssr_bank.write(0x00) 
-            print("ALARM DEACTIVATED")
-
-        time.sleep(1)
 
 if __name__ == '__main__':
     try: 
@@ -62,3 +55,4 @@ if __name__ == '__main__':
 # {
     #"python.pythonPath": "/usr/bin/python"
 #}
+
