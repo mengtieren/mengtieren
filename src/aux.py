@@ -46,13 +46,8 @@ def main():
 
 if __name__ == '__main__':
     try: 
+        print ("Aux running")
         main()
     except KeyboardInterrupt:
         print ("\nexiting")
-
-
-## in a .vscode folder place following: 
-# {
-    #"python.pythonPath": "/usr/bin/python"
-#}
 
