@@ -94,7 +94,7 @@ def main(ssr_bank, opto_bank):
             message = msg_q.get()
             if message["message"] == message_type:
                 print (message)
-                char0 = message["feed_name"][0]
+                char0 = message["name"][0]
                 if char0 in ["1","2","3","4","5","6","7","8"]:
                     print("setting output", char0)
                     outputs[int(char0)-1].set()
