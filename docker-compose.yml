@@ -7,9 +7,10 @@ services:
       image: aux:latest
       
       command: python3 /src/aux.py
-      #stdin_open: true # docker run -i
+      
+      stdin_open: true # docker run -i
 
-      #tty: true        # docker run -t
+      tty: true        # docker run -t
 
       devices:
         - "/dev/ttyUSB0"
@@ -19,13 +20,21 @@ services:
 
       privileged: true
       
+      build: ./
+
+       
       volumes:
         - ./src:/src
 
-      cap_add:
-        - ALL
-    
-      ports:
-        - 5005:5005
+      # cap_add:
+      #   - ALL
+
+      environment:            
+        SERVER_PUB_LOGIC_CONNECT_URI: tcp://host.docker.internal:5007          # PUB to Logic 
+        AUX_PULSE_MESSAGE: ana_aux_pulse
+      
+      extra_hosts:
+        - "host.docker.internal:host-gateway"
+
 
 
