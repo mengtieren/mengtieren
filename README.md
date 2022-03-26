@@ -1,10 +1,8 @@
 # Aux
 To use clone the repo, enter the Aux directory and run "docker-compose up" to run in the foreground where it will output to the console and "docker-compose up -d" to run in the background.
 
-The Logic will send an security_state_aux message. Aux will react based on the System_state field. Currently hardoced to set or reset SSR_OUT_0 on the aux board dependant on security_state_aux message. The default output is 0. If the intention is to activate the alarm, the SSR_OUT_0 set to 1 for 2 seconds and then returned to 0. This SSR output is used to short the panic button input of the Paradox Alarm panel to ground, which triggers the alarm.
+Currently set to receive ana_aux_pulse messages from Analytics. Need  to change these to Logic at some point
 
-To change the port of the 
+The output will toggle according to the  1st character of the  "name" field of the ana_aaux_pulse. i.e. if name is "1_home", then SSR output 1 is triggered. ote that there it is set to a maximum of 8 outputs.
 
-
-
-
+Not set to respod to inputs from the optoisolatos
