@@ -5,4 +5,4 @@ Currently set to receive ana_aux_pulse messages from Analytics. Need  to change 
 
 The output will toggle according to the  1st character of the  "name" field of the ana_aaux_pulse. i.e. if name is "1_home", then SSR output 1 is triggered. ote that there it is set to a maximum of 8 outputs.
 
-Not set to respod to inputs from the optoisolatos
+Not set to respod to inputs from the optoisolators
